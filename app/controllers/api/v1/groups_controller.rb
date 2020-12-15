@@ -4,7 +4,7 @@ module Api
   module V1
     class GroupsController < ActionController::API
 
-      before_action :assign_variables
+      before_action :assign_variables, :fetch_email_id, :user_exist
 
       def groups_list
         result = @graph.get_connections('me', 'groups')
@@ -15,6 +15,31 @@ module Api
       end
 
       private
+
+      def user_exist
+        return if user.present?
+
+        create_user
+      end
+
+      def user
+        @user ||= User.find_by(email: @user_data['email'])
+      end
+
+      def create_user
+        @user = User.create!(
+          email: @user_data['email'],
+          name: @user_data['name']
+        )
+      end
+
+      def fetch_email_id
+        @user_data = @graph.get_object('me', fields: 'email, name')
+
+        return if @user_data['email'].present?
+
+        render json: { message: 'Please Provide an email id' }
+      end
 
       def assign_variables
         @groups = []
