@@ -23,3 +23,11 @@ Things you may want to cover:
 
 * ...
 # facebook_graphql
+
+# For a moment I took an access token from develop.facebook 
+# => https://developers.facebook.com/tools/explorer/?method=GET&path=me%3Ffields%3Demail&version=v9.0 
+
+API Doc:
+
+https://documenter.getpostman.com/view/6581483/TVspjom9
+
