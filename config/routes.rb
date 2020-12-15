@@ -5,11 +5,15 @@ Rails.application.routes.draw do
     scope module: :v1 do
       resources :groups do
         collection do
-          post 'groups_list'
+          get 'groups_list'
           post 'add_fav_groups'
         end
       end
-      resources :users
+      resources :users do
+        collection do
+          post 'add_notification_time'
+        end
+      end
     end
   end
 end

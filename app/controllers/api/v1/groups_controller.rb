@@ -5,7 +5,6 @@ module Api
     class GroupsController < ActionController::API
 
       before_action :assign_variables, :fetch_email_id, :user_exist, only: :groups_list
-      before_action :user_exist, only: :add_fav_groups
 
       def groups_list
         result = @graph.get_connections('me', 'groups')
@@ -16,17 +15,18 @@ module Api
       end
 
       def add_fav_groups
-        return render json: { message: 'User not exist' } if user.present?
+        return render json: { message: 'User not exist' } if user.blank?
 
-        params.dig(:group_ids).each do |group_id|
+        params.dig(:group_ids).each do |_, group_id|
           user.fav_groups.create!(
             group_id: group_id
           )
         end
 
-        render json: { 
+        render json: {
           fav_group_ids: user.fav_groups.pluck(:group_id),
-          message: 'groups id added successfully' }
+          message: 'groups id added successfully'
+        }
       end
 
       private
