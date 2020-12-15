@@ -26,6 +26,7 @@ Things you may want to cover:
 
 # For a moment I took an access token from develop.facebook 
 # => https://developers.facebook.com/tools/explorer/?method=GET&path=me%3Ffields%3Demail&version=v9.0 
+# Email trigger feature is still pending
 
 API Doc:
 
