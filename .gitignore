@@ -1,0 +1,39 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+notes.txt
+# Ignore application configuration
+/config/application.yml
+.DS_Store
+yarn-error.log
+.byebug_history
+.env
+
+# Ignore node_modules
+node_modules/
+
+# Ignore public/assets
+public/assets/**
+
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
+.idea/
+
+/config/master.key
+
+/config/credentials/staging.key
+
+/config/credentials/development.key
