@@ -24,6 +24,8 @@ module Api
 
       def user
         @user = User.find_by(email: params['email'])
+
+        render json: { message: 'User not exist' } if @user.blank?
       end
 
       def user
