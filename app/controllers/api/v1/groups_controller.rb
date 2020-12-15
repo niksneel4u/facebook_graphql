@@ -8,7 +8,6 @@ module Api
       before_action :user_exist, only: :add_fav_groups
 
       def groups_list
-        binding.pry
         result = @graph.get_connections('me', 'groups')
         @groups << result
         fetch_all_pages(result)
@@ -33,7 +32,6 @@ module Api
       private
 
       def user_exist
-        binding.pry
         return if user.present?
 
         create_user
@@ -53,7 +51,6 @@ module Api
       end
 
       def fetch_email_id
-        binding.pry
         @user_data = @graph.get_object('me', fields: 'email, name')
 
         return if @user_data['email'].present?
@@ -62,7 +59,6 @@ module Api
       end
 
       def assign_variables
-        binding.pry
         @groups = []
         @graph = Koala::Facebook::API.new(params[:token])
       end
