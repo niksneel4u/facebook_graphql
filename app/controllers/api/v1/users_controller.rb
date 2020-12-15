@@ -5,8 +5,8 @@ module Api
       before_action :user, only: :add_notification_time
 
       def create
-        if user
-          render json: { user: user, message: 'User successfully created' }
+        if create_user
+          render json: { user: create_user, message: 'User successfully created' }
         else
           render json: { error_message: user.errors.full_messages }
         end
@@ -28,8 +28,8 @@ module Api
         render json: { message: 'User not exist' } if @user.blank?
       end
 
-      def user
-        @user ||= User.create!(
+      def create_user
+        @create_user ||= User.create!(
           email: params[:email],
           name: params[:name]
         )
