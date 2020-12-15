@@ -4,9 +4,11 @@ module Api
   module V1
     class GroupsController < ActionController::API
 
-      before_action :assign_variables, :fetch_email_id, :user_exist
+      before_action :assign_variables, :fetch_email_id, :user_exist, only: :groups_list
+      before_action :user_exist, only: :add_fav_groups
 
       def groups_list
+        binding.pry
         result = @graph.get_connections('me', 'groups')
         @groups << result
         fetch_all_pages(result)
@@ -14,19 +16,36 @@ module Api
         send_response
       end
 
+      def add_fav_groups
+        return render json: { message: 'User not exist' } if user.present?
+
+        params.dig(:group_ids).each do |group_id|
+          user.fav_groups.create!(
+            group_id: group_id
+          )
+        end
+
+        render json: { 
+          fav_group_ids: user.fav_groups.pluck(:group_id),
+          message: 'groups id added successfully' }
+      end
+
       private
 
       def user_exist
+        binding.pry
         return if user.present?
 
         create_user
       end
 
       def user
-        @user ||= User.find_by(email: @user_data['email'])
+        @user ||= User.find_by(email: params['email_id'] || @user_data['email'])
       end
 
       def create_user
+        return if @user_data.blank?
+
         @user = User.create!(
           email: @user_data['email'],
           name: @user_data['name']
@@ -34,6 +53,7 @@ module Api
       end
 
       def fetch_email_id
+        binding.pry
         @user_data = @graph.get_object('me', fields: 'email, name')
 
         return if @user_data['email'].present?
@@ -42,13 +62,14 @@ module Api
       end
 
       def assign_variables
+        binding.pry
         @groups = []
         @graph = Koala::Facebook::API.new(params[:token])
       end
 
       def send_response
         if @groups.present?
-          render json: { groups: @groups }
+          render json: { user: user, groups: @groups }
         else
           render json: { message: 'Groups not found' }
         end

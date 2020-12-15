@@ -5,7 +5,8 @@ Rails.application.routes.draw do
     scope module: :v1 do
       resources :groups do
         collection do
-          get 'groups_list'
+          post 'groups_list'
+          post 'add_fav_groups'
         end
       end
       resources :users

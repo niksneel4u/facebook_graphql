@@ -1,0 +1,2 @@
+class FavGroup < ApplicationRecord
+end
